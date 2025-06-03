@@ -60,7 +60,7 @@ if model_option == "18-Month Model":
 else:
     # Configuration for 21-month model
     model_path = "21_model_pkl"
-    prediction_days = 90  # Jan-Mar 2025 (3 months)
+    prediction_days = 31  # Jan-Mar 2025 (3 months)
     
     # Get the last actual date from data (should be end of Dec 2024)
     last_actual_date = actual_df["Document date"].max()
@@ -70,7 +70,7 @@ else:
     pred = predict_model(model, fh=prediction_days)
     pred_df = pd.DataFrame(np.expm1(pred)).reset_index()
     pred_df.columns = ['index', 'predictions']
-    pred_df["Document date"] = pd.date_range(start="2025-01-01", end="2025-03-31", freq="D")
+    pred_df["Document date"] = pd.date_range(start="2025-01-01", end="2025-01-31", freq="D")
     
     # Create the forecast dataframe (no actuals since we're predicting future)
     full_df = pred_df[["Document date", "predictions"]].copy()
@@ -133,7 +133,7 @@ else:
     fig.add_trace(go.Bar(
         x=plot_df["Document date"],
         y=plot_df["Forecast"],
-        name="3-Month Forecast",
+        name="Month Forecast",
         marker_color='lightgreen',
         opacity=0.7
     ))
@@ -142,7 +142,7 @@ title_text = f"{model_option} - {granularity} View"
 if model_option == "18-Month Model":
     title_text += " (Oct-Dec 2024 Actual vs Predictions)"
 else:
-    title_text += " (3-Month Forecast)"
+    title_text += " (Month Forecast)"
 
 fig.update_layout(
     barmode='overlay',
