@@ -4,8 +4,6 @@ __pycache__/
 .venv/
 venv/
 .ipynb_checkpoints
-*.pkl
-*.csv
 notebook/
 logs.log
 try.py
